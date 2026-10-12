@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Automation Dashboard & Runner (TEA Enterprise)</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <i class="fa-solid fa-vial-circle-check brand-icon"></i>
+      <div>
+        <h1>TEA Test Automation Dashboard</h1>
+        <p class="subtitle">BMad Method 6.12.0 & TEA Enterprise 1.27.2 Standard [ID:363]</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="badge badge-primary"><i class="fa-solid fa-shield-halved"></i> Agentic SDLC Ready</span>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-tab="dashboard-tab">
+          <i class="fa-solid fa-chart-line"></i> Dashboard & Suites
+        </button>
+        <button class="nav-btn" data-tab="simulator-tab">
+          <i class="fa-solid fa-terminal"></i> Playwright CLI Simulator
+        </button>
+        <button class="nav-btn" data-tab="trace-tab">
+          <i class="fa-solid fa-magnifying-glass-chart"></i> Trace Analyzer
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <p>App Slug: <code>test-automation-dashboard</code></p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-content">
+      
+      <!-- TAB 1: DASHBOARD & SUITES -->
+      <section id="dashboard-tab" class="tab-content active">
+        <!-- Metrics Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon bg-blue"><i class="fa-solid fa-cubes"></i></div>
+            <div class="metric-info">
+              <h3 id="metric-suites">0</h3>
+              <p>Total Test Suites</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon bg-green"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="metric-info">
+              <h3 id="metric-passed">0</h3>
+              <p>Passed Cases</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon bg-red"><i class="fa-solid fa-circle-xmark"></i></div>
+            <div class="metric-info">
+              <h3 id="metric-failed">0</h3>
+              <p>Failed Cases</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon bg-purple"><i class="fa-solid fa-percent"></i></div>
+            <div class="metric-info">
+              <h3 id="metric-rate">0%</h3>
+              <p>Success Rate</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suite Management Section -->
+        <div class="section-header">
+          <h2><i class="fa-solid fa-list-check"></i> Test Suites & Execution</h2>
+          <button class="btn btn-primary" id="btn-open-suite-modal">
+            <i class="fa-solid fa-plus"></i> Create Test Suite
+          </button>
+        </div>
+
+        <div class="suites-container" id="suites-list">
+          <div class="loading-spinner">Loading test suites...</div>
+        </div>
+      </section>
+
+      <!-- TAB 2: PLAYWRIGHT CLI SIMULATOR -->
+      <section id="simulator-tab" class="tab-content">
+        <div class="simulator-layout">
+          <!-- Terminal Panel -->
+          <div class="panel terminal-panel">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-terminal"></i> Playwright CLI Interactive Console</h3>
+              <span class="session-indicator" id="session-status">Session: tea-explore-active</span>
+            </div>
+            <div class="panel-body terminal-body" id="terminal-output">
+              <div class="terminal-line system-msg">Welcome to Playwright CLI Simulator [ID:194].</div>
+              <div class="terminal-line system-msg">Type "help" to see available commands or use the quick buttons below.</div>
+            </div>
+            <div class="terminal-input-container">
+              <span class="prompt">$ playwright-cli -s=tea-explore</span>
+              <input type="text" id="terminal-input" placeholder="Enter command (e.g., open https://app.com/login)...">
+              <button class="btn btn-dark" id="btn-send-cmd">Run</button>
+            </div>
+          </div>
+
+          <!-- Quick Actions & State Panel -->
+          <div class="panel state-panel">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Quick Commands & DOM State</h3>
+            </div>
+            <div class="panel-body">
+              <div class="quick-actions-group">
+                <h4>Quick Actions</h4>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline" id="btn-quick-open">1. Open Login Page</button>
+                  <button class="btn btn-sm btn-outline" id="btn-quick-snapshot">2. Take Snapshot</button>
+                  <button class="btn btn-sm btn-outline" id="btn-quick-fill-email">3. Fill Email</button>
+                  <button class="btn btn-sm btn-outline" id="btn-quick-fill-pass">4. Fill Password</button>
+                  <button class="btn btn-sm btn-outline" id="btn-quick-click">5. Click Sign In</button>
+                  <button class="btn btn-sm btn-outline" id="btn-quick-screenshot">6. Take Screenshot</button>
+                </div>
+              </div>
+
+              <div class="state-group">
+                <h4>Discovered DOM Elements (CLI References) [ID:194]</h4>
+                <div class="dom-elements-list" id="dom-elements-view">
+                  <p class="empty-msg">No elements discovered. Run "open" and "snapshot" commands.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: TRACE ANALYZER -->
+      <section id="trace-tab" class="tab-content">
+        <div class="trace-layout">
+          <div class="panel">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-bug"></i> Autonomous Trace Investigation [ID:194]</h3>
+            </div>
+            <div class="panel-body">
+              <p class="description">
+                Khi một ca kiểm thử thất bại, hệ thống TEA sử dụng phân tích Trace Artifacts để tìm ra nguyên nhân gốc rễ mà không cần mở giao diện GUI nặng nề [ID:194].
+              </p>
+              
+              <div class="trace-upload-box">
+                <i class="fa-solid fa-file-zipper zip-icon"></i>
+                <h4>Analyze Trace Artifact (trace.zip)</h4>
+                <p>Select a failing test case trace to run autonomous diagnostic loop</p>
+                <button class="btn btn-primary" id="btn-simulate-trace-analysis">
+                  <i class="fa-solid fa-magnifying-glass-chart"></i> Run Diagnostic Loop
+                </button>
+              </div>
+
+              <div class="trace-results-container hidden" id="trace-analysis-results">
+                <div class="diagnostic-header">
+                  <span class="badge badge-danger">Diagnostic Report</span>
+                  <span id="diagnostic-timestamp">Just now</span>
+                </div>
+                
+                <div class="diagnostic-steps">
+                  <div class="diag-step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                      <h5>Run with <code>--debug=cli</code></h5>
+                      <p>Stepping through test execution to locate the exact failure point [ID:194].</p>
+                    </div>
+                  </div>
+                  <div class="diag-step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                      <h5>Filter Assertions (<code>trace actions --grep="expect"</code>)</h5>
+                      <p class="error-text">Found failing assertion: <code>expect(toBeVisible) ✗ 30s timeout</code> at Action #9 [ID:194].</p>
+                    </div>
+                  </div>
+                  <div class="diag-step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                      <h5>Inspect Snapshot (<code>trace snapshot 9 --name after</code>)</h5>
+                      <p>Page state shows login form is still visible. Submit button is disabled due to validation error.</p>
+                    </div>
+                  </div>
+                  <div class="diag-step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                      <h5>Analyze Network & Console Logs</h5>
+                      <p class="error-text">POST /api/auth/login returned status <code>400 Bad Request</code> (Invalid Email Format) [ID:443].</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="diagnostic-summary">
+                  <h4><i class="fa-solid fa-lightbulb"></i> Proposed Fix (Self-Healing Recommendation)</h4>
+                  <p>The test input email format is invalid. Update the test fixture input to a valid email address format (e.g., <code>user@example.com</code>) to resolve the validation block.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Create Suite Modal -->
+  <div class="modal-overlay hidden" id="suite-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Create New Test Suite</h3>
+        <button class="btn-close" id="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="create-suite-form">
+          <div class="form-group">
+            <label for="suite-name">Suite Name</label>
+            <input type="text" id="suite-name" placeholder="e.g., Payment Gateway Integration" required>
+          </div>
+          <div class="form-group">
+            <label for="suite-type">Testing Type</label>
+            <select id="suite-type">
+              <option value="E2E">E2E (Playwright Web UI)</option>
+              <option value="API">API (REST Integration)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="suite-url">Target URL / Endpoint</label>
+            <input type="text" id="suite-url" placeholder="e.g., https://api.app.com/v1" required>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-outline" id="btn-cancel-modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create Suite</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Case Modal -->
+  <div class="modal-overlay hidden" id="case-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add Test Case</h3>
+        <button class="btn-close" id="btn-close-case-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="create-case-form">
+          <input type="hidden" id="case-suite-id">
+          <div class="form-group">
+            <label for="case-name">Test Case Name / Description</label>
+            <input type="text" id="case-name" placeholder="e.g., Should return 403 Forbidden on invalid token" required>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-outline" id="btn-cancel-case-modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add Case</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+```
+
+---

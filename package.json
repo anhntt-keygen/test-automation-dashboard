@@ -1,0 +1,23 @@
+{
+  "name": "test-automation-dashboard",
+  "version": "1.0.0",
+  "description": "Test Automation Dashboard & Runner based on BMad Method and TEA Enterprise",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "bmad-testarch-automate",
+    "playwright-cli",
+    "api-testing",
+    "test-runner"
+  ],
+  "author": "Vibecode Senior Full-Stack Developer",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
+```
+
+---
